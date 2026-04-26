@@ -1,0 +1,33 @@
+#Задание 2
+import sympy as sp
+import numpy as np
+import matplotlib.pyplot as plt
+x=sp.Symbol('x')
+y=sp.Symbol('y')
+r=sp.Symbol('r')
+phi=sp.Symbol('phi')
+
+print('Три интеграла - ответ один')
+first_dy_dx=sp.integrate(x*y, (y, 1-sp.sqrt(1-x**2), 1+sp.sqrt(1-x**2)))
+second_dy_dx=sp.integrate(first_dy_dx, (x, 0, 1))
+print(second_dy_dx)
+
+first_dx_dy=sp.integrate(x*y, (x, 0, sp.sqrt(2*y-y**2)))
+second_dx_dy=sp.integrate(first_dx_dy, (y, 0, 2))
+print(second_dx_dy)
+
+first_polar=sp.integrate(r**2*sp.cos(phi)+r**3*sp.sin(phi)*sp.cos(phi), (r, 0, 1))
+second_polar=sp.integrate(first_polar, (phi,-1*sp.pi/2, sp.pi/2))
+print(second_polar)
+
+y=np.linspace(0, 2, 100)
+plt.plot(np.sqrt(2*y-y**2), y, color='red')
+plt.plot(-1*np.sqrt(2*y-y**2), y, color='red')
+plt.axis('equal')
+plt.axhline(y=0, color='black')
+plt.axvline(x=0, color='black')
+y_fill=np.linspace(0, 2, 100)
+plt.fill_betweenx(y_fill, 0, np.sqrt(2*y_fill - y_fill**2), color='lightblue')
+plt.grid()
+plt.plot(0, 1, '.', linewidth=10, color='blue')
+plt.show()
