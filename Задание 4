@@ -1,0 +1,59 @@
+#Задание 4
+import sympy as sp
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+x=sp.Symbol('x')
+y=sp.Symbol('y')
+z=sp.Symbol('z')
+
+m_first=sp.integrate(1, (z, 0, sp.exp(2)-y))
+m_second=sp.integrate(m_first, (x, -sp.log(y), sp.log(y)))
+m_third=sp.integrate(m_second, (y, 1, sp.exp(2)))
+
+Myz_first=sp.integrate(x, (z, 0, sp.exp(2)-y))
+Myz_second=sp.integrate(Myz_first, (x, -sp.log(y), sp.log(y)))
+Myz_third=sp.integrate(Myz_second, (y, 1, sp.exp(2)))
+
+Mxz_first=sp.integrate(y, (z, 0, sp.exp(2)-y))
+Mxz_second=sp.integrate(Mxz_first, (x, -sp.log(y), sp.log(y)))
+Mxz_third=sp.integrate(Mxz_second, (y, 1, sp.exp(2)))
+
+Mxy_first=sp.integrate(z, (z, 0, sp.exp(2)-y))
+Mxy_second=sp.integrate(Mxy_first, (x, -sp.log(y), sp.log(y)))
+Mxy_third=sp.integrate(Mxy_second, (y, 1, sp.exp(2)))
+
+x_c=Myz_third/m_third
+y_c=Mxz_third/m_third
+z_c=Mxy_third/m_third
+
+print('(', x_c, ';', y_c, ';', z_c, ')')
+
+fig=plt.figure(figsize=(8,6))
+ax=fig.add_subplot(111, projection='3d')
+
+y1=np.linspace(1, np.exp(2), 50) 
+t=np.linspace(-1, 1, 50)
+T, Y1=np.meshgrid(t, y1)
+
+X=T*np.log(Y1) # x меняется от -ln(y) до ln(y)
+Y=Y1
+Z=np.exp(2)-Y #Крышка
+Z0=X-X+Y-Y #Z=0
+
+ax.plot_surface(X, Y, Z, color='lightgreen', alpha=0.9)
+ax.plot_surface(X, Y, Z0, color='lightgreen')
+
+#Cтенки
+z_wall=np.linspace(0, 1, 20)
+x_wall=np.linspace(-2, 2, 30)
+X_wall, setka=np.meshgrid(x_wall, z_wall)
+Y_wall=np.exp(np.abs(X_wall))
+Z_wall=setka*(np.exp(2)-Y_wall)
+ax.plot_surface(X_wall, Y_wall, Z_wall, color='lightgreen', alpha=0.6)
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.set_title('Тело')
+ax.view_init(25, 0)
+plt.show()
