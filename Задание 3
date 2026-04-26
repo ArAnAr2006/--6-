@@ -1,0 +1,31 @@
+#Задание 3
+import sympy as sp
+import numpy as np
+import matplotlib.pyplot as plt
+x=sp.Symbol('x')
+y=sp.Symbol('y')
+gamma=x+6*y
+
+M_first=sp.integrate(gamma, (y, x, 5*x))
+M_second=sp.integrate(M_first, (x, 0, 1))
+
+V_first=sp.integrate(1, (y, x, 5*x))
+V_second=sp.integrate(V_first, (x, 0, 1))
+
+print('Масса -', M_second)
+print('Объём -', V_second)
+print('Средняя плотность -', M_second/V_second)
+
+x=np.linspace(0, 2, 100)
+plt.plot(x, x, color='red')
+plt.plot(x, 5*x, color='red')
+plt.axhline(y=0, color='black')
+plt.axvline(x=0, color='black')
+y1=np.linspace(0, 10, 100)
+plt.plot(y1-y1+1, y1, '--')
+x_fill=np.linspace(0, 1, 100)
+y_fill_1=x_fill
+y_fill_2=5*x_fill
+plt.fill_between(x_fill, y_fill_1, y_fill_2, color='lightblue')
+plt.grid()
+plt.show()
